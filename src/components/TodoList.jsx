@@ -1,31 +1,35 @@
 
-import {addTodo} from '../redux/actions/actions'
+import {addTodo, toggleTodo, removeTodo} from '../redux/actions/actions'
 import {connect} from 'react-redux'
 import {useState} from 'react'
+import './TodoList.css'
 
 function isEnterKey(key) {
   return key === 'Enter'
 }
 
-function TodoList({todos, addTodo}) {
+function TodoList({todos, addTodo, toggleTodo, removeTodo}) {
   const [text, setText] = useState('')
-  const toggleCheck = () =>   console.log('toggle check')
   const handleAddTodo = () => {
-    addTodo(text)
-    setText('')
+    if(text.length) {
+      addTodo(text)
+      setText('') 
+    }
   }
 
   
   return (
     <div>
       <input type="text" onKeyDown={e => isEnterKey(e.key) && handleAddTodo()} value={text} onChange={(e) => setText(e.target.value)}/>
+      <h3>Todos</h3>
       <ul>
         {todos.map(todo => (
-          <li>
-            <input type="checkbox" onClick={toggleCheck}/>
-            <span>
+          <li key={todo.id}>
+            <input type="checkbox" onClick={() => toggleTodo(todo.id)} value={todo.done}/>
+            <span className={todo.done ? 'completed' : ''}>
               {todo.title}
             </span>
+            <button onClick={() => removeTodo(todo.id)}>x</button>
           </li>
         ))}
       </ul>
@@ -35,11 +39,11 @@ function TodoList({todos, addTodo}) {
 
 function mapStateToProps(state) {
   return {
-    todos: state
+    todos: state.todos || []
   }
 }
 
 export default connect(
   mapStateToProps,
-  {addTodo}
+  {addTodo, toggleTodo, removeTodo}
 )(TodoList)

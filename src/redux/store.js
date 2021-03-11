@@ -1,6 +1,9 @@
 import { createStore } from 'redux'
-import TodoReducer from './reducers/todosReducers'
+import rootReducer from './reducers'
   
-const store = createStore(TodoReducer)
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 store.subscribe(() => console.log(store.getState()))
 export default store
