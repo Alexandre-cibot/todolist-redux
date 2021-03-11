@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { Provider } from 'react-redux';
 import './App.css';
+import TodoList  from './components/TodoList';
+import store from './redux/store'
 
+// Implémenter une todolist
+// Creation de nouveau todo
+// Affichage des todos, et de leur etat (terminé ou non)
+// Enn ulisant redux
 function App() {
+  const todos = [
+    {
+      id: 1,
+      title: 'Manger des frutis',
+      done: false 
+    },
+    {
+      id: 2,
+      title: 'Faire du sport',
+      done: false 
+    }
+  ]
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <TodoList todos={todos} />
+      </div>
+    </Provider>
   );
 }
 
